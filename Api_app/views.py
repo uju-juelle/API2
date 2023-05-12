@@ -130,10 +130,10 @@ from .models import *
 #             serializers.save()
 #             return Response(serializers.data, status=status.HTTP_202_ACCEPTED)
 #         return Response("not accepted")
-#     else:
-#         serializers = Comment.objects.get(id=id)
-#         serializers.delete()
-#         return Response("deleted successfully")
+      else:
+        serializers = Comment.objects.get(id=id)
+        serializers.delete()
+        return Response("deleted successfully")
 
 
 
