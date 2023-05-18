@@ -7,6 +7,8 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from .models import *
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.filters import SearchFilter
 
 
 # @api_view(["GET", "POST"])
@@ -45,7 +47,7 @@ from .models import *
 
 
 # class api_homepage(APIView):
-#     def get(self, request):
+#     def get(self, request, id):
 #          detail = Post.objects.get(id=id)
 #          new_serializer = PostSerializer(detail)
 #          return Response(new_serializer.data, status=status.HTTP_200_OK)
@@ -92,15 +94,18 @@ from .models import *
 #     lookup_field = "id"
 
 
-# class api_commenthome(ListCreateAPIView):
-#     queryset = Comment.objects.all()
-#     serializer_class = CommentSerializer
+class api_commenthome(ListCreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    pagination_class = PageNumberPagination
+    filter_backends = [SearchFilter]
+    search_fields = ["post__title", "name", "message"]
 
 
-# class api_commentdetail(ListCreateAPIView):
-#     queryset = Comment.objects.all()
-#     serializer_class = CommentSerializer
-#     lookup_field = "id"
+class api_commentdetail(ListCreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    lookup_field = "id"
 
 # @api_view(["GET", "POST"])
 # def api_commenthome(request):
@@ -130,42 +135,43 @@ from .models import *
 #             serializers.save()
 #             return Response(serializers.data, status=status.HTTP_202_ACCEPTED)
 #         return Response("not accepted")
-      else:
-        serializers = Comment.objects.get(id=id)
-        serializers.delete()
-        return Response("deleted successfully")
+    #   else:
+    #     serializers = Comment.objects.get(id=id)
+    #     serializers.delete()
+    #     return Response("deleted successfully")
 
 
 
-class api_commenthome(APIView):
-    def get(self, request):
-           all_posts = Comment.objects.all()
-           serializers = CommentSerializer(all_posts, many=True)
-           return Response(serializers.data, status=status.HTTP_200_OK)
-    def post(self,request):
-        serializers = CommentSerializer(data=request.data)
-        if serializers.is_valid():
-            serializers.save()
-            return Response(serializers.data, status=status.HTTP_202_ACCEPTED)
-        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+# class api_commenthome(APIView):
+#     pagination_class = PageNumberPagination
+#     def get(self, request):
+#            all_posts = Comment.objects.all()
+#            serializers = CommentSerializer(all_posts, many=True)
+#            return Response(serializers.data, status=status.HTTP_200_OK)
+#     def post(self,request):
+#         serializers = CommentSerializer(data=request.data)
+#         if serializers.is_valid():
+#             serializers.save()
+#             return Response(serializers.data, status=status.HTTP_202_ACCEPTED)
+#         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
-class api_commentdetail(APIView):
-     def get(self, request, id):
-              detail = Comment.objects.get(id=id)
-              serializers = CommentSerializer(detail)
-              return Response(serializers.data, status=status.HTTP_200_OK)
-     def put(self, request, id):
-        detail = Comment.objects.get(id=id)
-        serializers = CommentSerializer(detail, data=request.data, partial=True)
-        if serializers.is_valid():
-            serializers.save()
-            return Response(serializers.data, status=status.HTTP_202_ACCEPTED)
-        return Response("not accepted")
-     def delete(self, request, id):
-        serializers = Comment.objects.get(id=id)
-        serializers.delete()
-        return Response("deleted successfully")
+# class api_commentdetail(APIView):
+#      def get(self, request, id):
+#               detail = Comment.objects.get(id=id)
+#               serializers = CommentSerializer(detail)
+#               return Response(serializers.data, status=status.HTTP_200_OK)
+#      def put(self, request, id):
+#         detail = Comment.objects.get(id=id)
+#         serializers = CommentSerializer(detail, data=request.data, partial=True)
+#         if serializers.is_valid():
+#             serializers.save()
+#             return Response(serializers.data, status=status.HTTP_202_ACCEPTED)
+#         return Response("not accepted")
+#      def delete(self, request, id):
+#         serializers = Comment.objects.get(id=id)
+#         serializers.delete()
+#         return Response("deleted successfully")
      
 
 
