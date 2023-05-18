@@ -46,19 +46,19 @@ from rest_framework.filters import SearchFilter
 
 
 
-class api_homepage(APIView):
-    def get(self, request, id):
-         detail = Post.objects.get(id=id)
-         new_serializer = PostSerializer(detail)
-         return Response(new_serializer.data, status=status.HTTP_200_OK)
+# class api_homepage(APIView):
+#     def get(self, request, id):
+#          detail = Post.objects.get(id=id)
+#          new_serializer = PostSerializer(detail)
+#          return Response(new_serializer.data, status=status.HTTP_200_OK)
     
-    def post(self, request):
-          serializer = PostSerializer(data=request.data)
-          if serializer.is_valid():
-            serializer.save()
-            return Response({"success": "Nice Work!!",
-                            "data": serializer.data}, status=status.HTTP_201_CREATED)
-          return Response("invalid data entered")
+#     def post(self, request):
+#           serializer = PostSerializer(data=request.data)
+#           if serializer.is_valid():
+#             serializer.save()
+#             return Response({"success": "Nice Work!!",
+#                             "data": serializer.data}, status=status.HTTP_201_CREATED)
+#           return Response("invalid data entered")
     
 
 
